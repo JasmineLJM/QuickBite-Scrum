@@ -6,3 +6,4 @@ This folder contains evidence for Product Backlog creation, (priority) ordering,
 - 'prodcut-backlog-after-estimation.png' - shows the updated Product Backlog after the Story Point estimation.
 - 'customer-pbi-example.png' - shows an example of a customer-facing PBI with a user story, description, and acceptance criteria.
 - 'technical-pbi-example.png' - shows an example of a technical PBI with a description and acceptance criteria.
+- 'definition-of-done.png' - shows the Definition of Done used to determine if a PBI is completed.
