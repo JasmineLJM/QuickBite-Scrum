@@ -6,6 +6,14 @@ Personal simulation for learning the assignment workflow. This is not evidence o
 
 Complete one assignment part, then document what was actually done. Keep unfinished work marked as pending. Real team execution and evidence are required for the assessed submission.
 
+## Scrum Team
+| Scrum Team Member | Scrum Responsibility | Responsibility |
+| --- | --- | --- |
+| Ziqing Song | Product Owner + Developer | Manage and Prioritize the Product Backlog |
+| Jie Min Liang | Scrum Master + Developer | Facilitate Scrum activities and help the team to apply Scrum |
+| Cuiyi Long | Developer | Contribute to techinical development and implement code |
+| Xudong Zhang | Developer | Contribute to techinical development and implement code |
+
 ## Structure
 
 - src/: application code (technology to be chosen)
