@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Ordering & Pickup Prototype</title>
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --status-submitted: #f59e0b;
+      --status-progress: #3b82f6;
+      --status-completed: #8b5cf6;
+      --status-pickup: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .column {
+      flex: 1;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .column-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Customer View Styles */
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .product-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 6px 0 12px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-counter {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .order-status-card {
+      margin-top: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    /* Staff View Styles */
+    .orders-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-item {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .order-body {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .badge-submitted { background: var(--status-submitted); }
+    .badge-in_progress { background: var(--status-progress); }
+    .badge-completed { background: var(--status-completed); }
+    .badge-ready_for_pickup { background: var(--status-pickup); }
+
+    .btn-action {
+      align-self: flex-end;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background: #1f2937;
+      color: #fff;
+    }
+
+    .btn-action:hover {
+      background: #374151;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Restaurant Pickup Prototype (Single Store)</h1>
+    <button class="btn-action" style="background:#ef4444;" onclick="resetAllData()">Clear All Data</button>
+  </header>
+
+  <div class="container">
+    <!-- Left Column: Customer Portal -->
+    <div class="column">
+      <div class="column-title">
+        <span>Customer Portal</span>
+        <span style="font-size: 0.85rem; font-weight: normal; color: var(--muted);">Classic Burger Bar</span>
+      </div>
+
+      <div class="product-card">
+        <div class="product-title">Signature Angus Burger</div>
+        <div class="product-desc">Juicy Angus beef patty with melted cheddar, lettuce, and secret sauce.</div>
+        <div class="product-meta">
+          <div class="price">$<span id="unit-price">12</span></div>
+          <div class="counter">
+            <button class="btn-counter" onclick="changeQty(-1)">-</button>
+            <span id="qty-display" style="font-weight: bold; width: 20px; text-align: center;">0</span>
+            <button class="btn-counter" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-submit" class="btn-primary" onclick="submitOrder()">Place Order ($<span id="total-price">0</span>)</button>
+
+      <div class="order-status-card" id="customer-order-status" style="display: none;">
+        <h4 style="margin-bottom: 8px;">My Current Order</h4>
+        <p style="font-size: 0.9rem; margin-bottom: 4px;">Order ID: <strong id="cust-order-id"></strong></p>
+        <p style="font-size: 0.9rem; margin-bottom: 8px;">Items: <span id="cust-order-items"></span></p>
+        <div>Status: <span id="cust-order-badge" class="badge"></span></div>
+      </div>
+    </div>
+
+    <!-- Right Column: Staff Kitchen Portal -->
+    <div class="column">
+      <div class="column-title">
+        <span>Kitchen / Staff Portal</span>
+        <span style="font-size: 0.85rem; font-weight: normal; color: var(--muted);">Active Orders: <span id="order-count">0</span></span>
+      </div>
+
+      <div class="orders-list" id="orders-list">
+        <!-- Rendered order cards will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Key used for saving order collections to the browser's localStorage
+    const STORAGE_KEY = 'restaurant_prototype_orders';
+    const UNIT_PRICE = 12;
+    let quantity = 0;
+
+    // Received -> Preparing -> Ready for Pickup -> Completed
+    const STATUS_FLOW = {
+      RECEIVED: {
+        text: 'Received', className: 'badge-submitted',
+        nextText: 'Start Preparing', nextStatus: 'PREPARING'
+      },
+      PREPARING: {
+        text: 'Preparing', className: 'badge-in_progress',
+        nextText: 'Mark Ready for Pickup', nextStatus: 'READY_FOR_PICKUP'
+      },
+      READY_FOR_PICKUP: {
+        text: 'Ready for Pickup', className: 'badge-ready_for_pickup',
+        nextText: 'Confirm Collected', nextStatus: 'COMPLETED'
+      },
+      COMPLETED: {
+        text: 'Completed', className: 'badge-completed',
+        nextText: null, nextStatus: null
+      }
+    };
+
+    // Load stored orders from localStorage or return an empty array
+    function loadOrders() {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    }
+
+    // Persist orders array back into localStorage and re-render the view
+    function saveOrders(orders) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+      render();
+    }
+
+    // Increment or decrement the order quantity
+    function changeQty(delta) {
+      quantity = Math.max(0, quantity + delta);
+      document.getElementById('qty-display').innerText = quantity;
+      document.getElementById('total-price').innerText = quantity * UNIT_PRICE;
+    }
+
+    // Validate the selection, then create an order with Received status
+    function submitOrder() {
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        alert('Please add at least one item.');
+        return;
+      }
+      const orders = loadOrders();
+      const newOrder = {
+        id: 'ORD-' + crypto.randomUUID(),
+        productName: 'Signature Angus Burger',
+        quantity: quantity,
+        total: quantity * UNIT_PRICE,
+        status: 'RECEIVED',
+        createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      };
+
+      orders.unshift(newOrder);
+      localStorage.setItem('last_customer_order_id', newOrder.id);
+      saveOrders(orders);
+    }
+
+    // Move the order forward to the next lifecycle state
+    function advanceOrderStatus(orderId) {
+      const orders = loadOrders();
+      const target = orders.find(o => o.id === orderId);
+      if (!target) return;
+
+      const currentConfig = STATUS_FLOW[target.status];
+      if (currentConfig && currentConfig.nextStatus) {
+        target.status = currentConfig.nextStatus;
+        saveOrders(orders);
+      }
+    }
+
+    // Refresh both Customer and Kitchen UI components
+    function render() {
+      const orders = loadOrders();
+      document.getElementById('order-count').innerText = orders.filter(order => order.status !== 'COMPLETED').length;
+
+      // 1. Render Kitchen / Staff portal cards
+      const listEl = document.getElementById('orders-list');
+      if (orders.length === 0) {
+        listEl.innerHTML = '<div class="empty-placeholder">No active orders</div>';
+      } else {
+        listEl.innerHTML = orders.map(order => {
+          const config = STATUS_FLOW[order.status];
+          const hasNext = Boolean(config.nextStatus);
+
+          return `
+            <div class="order-item">
+              <div class="order-header">
+                <span>Order ID: <strong>${order.id}</strong> (${order.createdAt})</span>
+                <span class="badge ${config.className}">${config.text}</span>
+              </div>
+              <div class="order-body">
+                <span>${order.productName} × ${order.quantity}</span>
+                <span>$${order.total}</span>
+              </div>
+              ${hasNext ? `
+                <button class="btn-action" onclick="advanceOrderStatus('${order.id}')">
+                  ${config.nextText} &rarr;
+                </button>
+              ` : `
+                <span style="font-size:0.8rem; color:#10b981; align-self: flex-end; font-weight:600;">Order collected and completed</span>
+              `}
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Customer portal tracker
+      const lastCustOrderId = localStorage.getItem('last_customer_order_id');
+      const custOrderCard = document.getElementById('customer-order-status');
+      const activeOrder = orders.find(o => o.id === lastCustOrderId);
+
+      if (activeOrder) {
+        const config = STATUS_FLOW[activeOrder.status];
+        custOrderCard.style.display = 'block';
+        document.getElementById('cust-order-id').innerText = activeOrder.id;
+        document.getElementById('cust-order-items').innerText = `${activeOrder.productName} × ${activeOrder.quantity} ($${activeOrder.total})`;
+        const badge = document.getElementById('cust-order-badge');
+        badge.className = `badge ${config.className}`;
+        badge.innerText = config.text;
+      } else {
+        custOrderCard.style.display = 'none';
+      }
+    }
+
+    // Clear saved states from localStorage
+    function resetAllData() {
+      if (confirm('Are you sure you want to clear all order data?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('last_customer_order_id');
+        render();
+      }
+    }
+
+    // Synchronize other tabs served from the same origin.
+    window.addEventListener('storage', event => {
+      if (event.key === STORAGE_KEY || event.key === 'last_customer_order_id' || event.key === null) {
+        render();
+      }
+    });
+
+    // Initial render on page load
+    window.addEventListener('DOMContentLoaded', render);
+  </script>
+</body>
+</html>
