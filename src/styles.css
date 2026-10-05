@@ -1,0 +1,223 @@
+
+    :root {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --status-submitted: #f59e0b;
+      --status-progress: #3b82f6;
+      --status-completed: #8b5cf6;
+      --status-pickup: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .column {
+      flex: 1;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .column-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Customer View Styles */
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .product-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 6px 0 12px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-counter {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .order-status-card {
+      margin-top: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    /* Staff View Styles */
+    .orders-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-item {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .order-body {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .badge-submitted { background: var(--status-submitted); }
+    .badge-in_progress { background: var(--status-progress); }
+    .badge-completed { background: var(--status-completed); }
+    .badge-ready_for_pickup { background: var(--status-pickup); }
+
+    .btn-action {
+      align-self: flex-end;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background: #1f2937;
+      color: #fff;
+    }
+
+    .btn-action:hover {
+      background: #374151;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 40px;
+    }
+  
+select { padding: 10px; margin-bottom: 16px; width: 100%; }
+.restaurant-label { color: var(--muted); margin-bottom: 12px; }
+@media (max-width: 700px) { .container { flex-direction: column; } }
+
+input { padding: 10px; margin: 8px 0 16px; width: 100%; border: 1px solid var(--border); border-radius: 4px; }
+.kitchens { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.kitchen-panel { flex: auto; }
+.history-title { margin: 24px 0 12px; }
+.order-body { gap: 12px; }
+.order-header { gap: 12px; flex-wrap: wrap; overflow-wrap: anywhere; }
