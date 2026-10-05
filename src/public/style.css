@@ -1,0 +1,46 @@
+* { box-sizing: border-box; }
+:root { font-family: Arial, sans-serif; color: #23332c; background: #faf9f5; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+header { background: #174f3c; color: white; }
+.header-inner { max-width: 1080px; margin: auto; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.brand { font-size: 29px; font-weight: 800; color: white; text-decoration: none; letter-spacing: -1px; }
+.dot { color: #eac16f; }
+.tagline { font-size: 14px; color: #d8e9df; }
+main { max-width: 1080px; margin: auto; padding: 54px 28px 64px; min-height: 75vh; }
+.eyebrow { font-size: 12px; letter-spacing: 2px; color: #436b55; font-weight: bold; }
+h1 { font-size: clamp(32px, 5vw, 48px); line-height: 1.15; letter-spacing: -1.5px; margin: 16px 0; }
+.intro { line-height: 1.7; color: #607066; margin-bottom: 44px; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+h2 { font-size: 20px; margin: 0; }
+#count { font-size: 13px; color: #607066; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+.card { background: white; border: 1px solid #dce3dc; border-radius: 15px; padding: 26px; display: flex; flex-direction: column; align-items: flex-start; }
+.card .label { background: #eef3ea; color: #365a43; padding: 7px 11px; border-radius: 6px; font-size: 12px; }
+h3 { margin: 24px 0 10px; font-size: 23px; letter-spacing: -.5px; }
+.card p { color: #607066; font-size: 14px; line-height: 1.7; margin: 0 0 24px; }
+button { margin-top: auto; border: 0; border-radius: 7px; padding: 12px 17px; background: #174f3c; color: white; text-decoration: none; font: inherit; font-size: 14px; cursor: pointer; }
+button:hover { background: #24694e; }
+a:focus-visible, button:focus-visible { outline: 3px solid #bb8009; outline-offset: 4px; }
+footer { border-top: 1px solid #e0e5dd; padding: 22px 28px; max-width: 1080px; margin: auto; color: #607066; font-size: 12px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 540px) { .tagline { display: none; } main { padding-top: 32px; } .grid { grid-template-columns: 1fr; } .section-heading { align-items: flex-start; } }
+.menu-link {
+  display: inline-block;
+  margin-top: auto;
+  padding: 12px 17px;
+  border-radius: 7px;
+  background: #174f3c;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-link:hover {
+  background: #24694e;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #174f3c;
+}

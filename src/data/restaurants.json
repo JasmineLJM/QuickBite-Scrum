@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Maple Kitchen",
+    "cuisine": "Canadian",
+    "address": "120 Maple Street, Montreal",
+    "participating": true
+  },
+  {
+    "id": 2,
+    "name": "Pasta Corner",
+    "cuisine": "Italian",
+    "address": "240 Oak Avenue, Montreal",
+    "participating": true
+  }
+]

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuickBite | Restaurants</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header><div class="header-inner"><a class="brand" href="/">QuickBite<span class="dot">.</span></a><span class="tagline">Local food, ready for pickup</span></div></header>
+  <main>
+    <p class="eyebrow" id="eyebrow">YOUR NEXT GOOD MEAL</p>
+    <h1 id="heading">Find your local favourite.</h1>
+    <p id="intro" class="intro">Browse our participating local restaurants.</p>
+    <div class="section-heading"><h2 id="section-title">Participating restaurants</h2><span id="count"></span></div>
+    <p id="message" role="status">Loading restaurants...</p>
+    <button id="retry" type="button" hidden>Try again</button>
+    <section id="content" class="grid" aria-label="Participating restaurants"></section>
+    <noscript>Please enable JavaScript to browse restaurants.</noscript>
+  </main>
+  <footer>QuickBite · Montreal <span>Demo restaurants and menus are sample data.</span></footer>
+</body>
+</html>
