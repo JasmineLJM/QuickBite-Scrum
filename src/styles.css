@@ -221,3 +221,8 @@ input { padding: 10px; margin: 8px 0 16px; width: 100%; border: 1px solid var(--
 .history-title { margin: 24px 0 12px; }
 .order-body { gap: 12px; }
 .order-header { gap: 12px; flex-wrap: wrap; overflow-wrap: anywhere; }
+
+.pause-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.pause-status { color: var(--muted); margin-bottom: 12px; }
+.pause-status.paused { color: #b45309; font-weight: 600; }
+.btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }

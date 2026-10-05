@@ -1,4 +1,7 @@
 const STORAGE_KEY = 'quickbite_orders_v2';
+// Set each restaurant's duration here after confirming its operating needs.
+const PAUSE_DURATION_SECONDS = { 'burger-bar': 30, 'pizza-house': 30 };
+const PAUSE_STORAGE_KEY = 'quickbite_restaurant_pauses_v1';
 const LAST_ORDER_KEY = 'quickbite_last_order_v2';
 const STATUS_FLOW = {
   RECEIVED: { text: 'Received', className: 'badge-submitted', nextText: 'Start Preparing', nextStatus: 'PREPARING' },
@@ -20,6 +23,40 @@ function saveOrders(orders) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
   render();
 }
+function loadPauses() {
+  try {
+    const pauses = JSON.parse(localStorage.getItem(PAUSE_STORAGE_KEY) || '{}');
+    return pauses && typeof pauses === 'object' && !Array.isArray(pauses) ? pauses : {};
+  } catch { return {}; }
+}
+function remainingPauseSeconds(restaurantId) {
+  const end = loadPauses()[restaurantId];
+  return Number.isFinite(end) ? Math.max(0, Math.ceil((end - Date.now()) / 1000)) : 0;
+}
+function pauseRestaurant(restaurantId) {
+  if (!RESTAURANTS.some(r => r.id === restaurantId)) return;
+  const duration = PAUSE_DURATION_SECONDS[restaurantId];
+  if (!Number.isFinite(duration) || duration <= 0) return;
+  const pauses = loadPauses();
+  // Persist an absolute deadline so refreshes do not restart the timer.
+  pauses[restaurantId] = Date.now() + duration * 1000;
+  localStorage.setItem(PAUSE_STORAGE_KEY, JSON.stringify(pauses));
+  renderPauseState();
+}
+function renderPauseState() {
+  for (const r of RESTAURANTS) {
+    const seconds = remainingPauseSeconds(r.id);
+    const status = el(`pause-${r.id}`);
+    status.textContent = seconds ? `Paused — ${seconds}s remaining` : 'Accepting orders';
+    status.className = seconds ? 'pause-status paused' : 'pause-status';
+  }
+  const seconds = remainingPauseSeconds(selectedRestaurantId);
+  el('customer-pause-status').textContent = seconds
+    ? `${restaurant().name} is paused for ${seconds}s. You can select food, but cannot place an order yet.`
+    : `${restaurant().name} is accepting orders.`;
+  el('customer-pause-status').className = seconds ? 'pause-status paused' : 'pause-status';
+  el('btn-submit').disabled = seconds > 0 || selectedItems().length === 0;
+}
 function selectedItems() {
   return restaurant().items.filter(item => quantities[item.id] > 0)
     .map(item => ({ id: item.id, name: item.name, price: item.price, quantity: quantities[item.id] }));
@@ -39,7 +76,7 @@ function renderMenu() {
     </div>`).join('');
   const items = selectedItems();
   el('total-price').textContent = money(items.reduce((sum, item) => sum + item.price * item.quantity, 0));
-  el('btn-submit').disabled = items.length === 0;
+  renderPauseState();
 }
 function changeQty(itemId, delta) {
   if (!restaurant().items.some(item => item.id === itemId)) return;
@@ -47,6 +84,12 @@ function changeQty(itemId, delta) {
   renderMenu();
 }
 function submitOrder() {
+  // Recheck storage at submission time, including changes from another view.
+  if (remainingPauseSeconds(selectedRestaurantId) > 0) {
+    renderPauseState();
+    alert('This restaurant is temporarily paused. Please wait before placing your order.');
+    return;
+  }
   const items = selectedItems();
   if (!items.length) { alert('Please add at least one item.'); return; }
   const customerId = el('customer-id').value.trim();
@@ -84,6 +127,7 @@ function orderCard(order, kitchen = false) {
   </div>`;
 }
 function render() {
+  renderPauseState();
   const orders = loadOrders();
   for (const r of RESTAURANTS) {
     const received = orders.filter(order => order.restaurantId === r.id);
@@ -109,12 +153,13 @@ function resetAllData() {
   if (!confirm('Are you sure you want to clear all QuickBite order data?')) return;
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem(LAST_ORDER_KEY);
+  localStorage.removeItem(PAUSE_STORAGE_KEY);
   quantities = {};
   renderMenu();
   render();
 }
 window.addEventListener('storage', event => {
-  if ([STORAGE_KEY, LAST_ORDER_KEY, null].includes(event.key)) render();
+  if ([STORAGE_KEY, LAST_ORDER_KEY, PAUSE_STORAGE_KEY, null].includes(event.key)) render();
 });
 window.addEventListener('DOMContentLoaded', () => {
   el('restaurant-select').innerHTML = RESTAURANTS.map(r => `<option value="${r.id}">${escapeHTML(r.name)}</option>`).join('');
@@ -130,9 +175,12 @@ window.addEventListener('DOMContentLoaded', () => {
   });
   el('customer-id').addEventListener('input', render);
   el('kitchens').addEventListener('click', event => {
+    const pauseButton = event.target.closest('[data-pause]');
+    if (pauseButton) { pauseRestaurant(pauseButton.dataset.pause); return; }
     const button = event.target.closest('[data-order]');
     if (button) advanceOrderStatus(button.dataset.order, button.dataset.restaurant);
   });
   renderMenu();
   render();
+  window.setInterval(renderPauseState, 250);
 });
