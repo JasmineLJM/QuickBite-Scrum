@@ -1,4 +1,7 @@
 const STORAGE_KEY = 'quickbite_orders_v2';
+const PAUSE_KEY = 'quickbite_pause_until_v1';
+const MINUTE = 60000;
+const PAUSE_DURATION = 15000;
 const LAST_ORDER_KEY = 'quickbite_last_order_v2';
 const STATUS_FLOW = {
   RECEIVED: { text: 'Received', className: 'badge-submitted', nextText: 'Start Preparing', nextStatus: 'PREPARING' },
@@ -24,6 +27,51 @@ function selectedItems() {
   return restaurant().items.filter(item => quantities[item.id] > 0)
     .map(item => ({ id: item.id, name: item.name, price: item.price, quantity: quantities[item.id] }));
 }
+function loadPauses() {
+  try { return JSON.parse(localStorage.getItem(PAUSE_KEY) || '{}') || {}; }
+  catch { return {}; }
+}
+function pauseRemaining(restaurantId, now = Date.now()) {
+  return Math.max(0, (Number(loadPauses()[restaurantId]) || 0) - now);
+}
+function pauseRestaurant(restaurantId) {
+  if (!RESTAURANTS.some(r => r.id === restaurantId)) return;
+  const pauses = loadPauses();
+  pauses[restaurantId] = Math.max(Date.now(), Number(pauses[restaurantId]) || 0) + PAUSE_DURATION;
+  localStorage.setItem(PAUSE_KEY, JSON.stringify(pauses));
+  renderAvailability();
+}
+function pickupWindow(index, now = Date.now()) {
+  const start = now + (15 + index * 30) * MINUTE;
+  return { start, end: start + 30 * MINUTE };
+}
+function formatPickup(start, end) {
+  const format = timestamp => new Date(timestamp).toLocaleString([], {
+    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+  return `${format(start)} – ${format(end)}`;
+}
+function renderPickupOptions() {
+  const select = el('pickup-time');
+  const selected = select.value || '0';
+  const now = Date.now();
+  select.innerHTML = [0, 1].map(index => {
+    const slot = pickupWindow(index, now);
+    return `<option value="${index}">${formatPickup(slot.start, slot.end)}</option>`;
+  }).join('');
+  select.value = selected;
+}
+function renderAvailability() {
+  const remaining = pauseRemaining(selectedRestaurantId);
+  el('btn-submit').disabled = selectedItems().length === 0 || remaining > 0;
+  el('customer-pause').textContent = remaining > 0
+    ? `Ordering paused for ${Math.ceil(remaining / 1000)} seconds. You can still choose items.` : '';
+  for (const r of RESTAURANTS) {
+    const seconds = Math.ceil(pauseRemaining(r.id) / 1000);
+    el(`pause-status-${r.id}`).textContent = seconds > 0
+      ? `Ordering paused: ${seconds}s remaining` : 'Accepting orders';
+  }
+}
 function renderMenu() {
   el('menu').innerHTML = restaurant().items.map(item => `
     <div class="product-card">
@@ -39,7 +87,7 @@ function renderMenu() {
     </div>`).join('');
   const items = selectedItems();
   el('total-price').textContent = money(items.reduce((sum, item) => sum + item.price * item.quantity, 0));
-  el('btn-submit').disabled = items.length === 0;
+  renderAvailability();
 }
 function changeQty(itemId, delta) {
   if (!restaurant().items.some(item => item.id === itemId)) return;
@@ -47,6 +95,15 @@ function changeQty(itemId, delta) {
   renderMenu();
 }
 function submitOrder() {
+  const now = Date.now();
+  if (pauseRemaining(selectedRestaurantId, now) > 0) {
+    renderAvailability();
+    alert('This restaurant is paused. Please wait before placing your order.');
+    return;
+  }
+  const slotIndex = Number(el('pickup-time').value);
+  if (![0, 1].includes(slotIndex)) { alert('Please select a pickup window.'); return; }
+  const slot = pickupWindow(slotIndex, now);
   const items = selectedItems();
   if (!items.length) { alert('Please add at least one item.'); return; }
   const customerId = el('customer-id').value.trim();
@@ -56,7 +113,8 @@ function submitOrder() {
     id: 'ORD-' + crypto.randomUUID(), restaurantId: restaurant().id,
     restaurantName: restaurant().name, items,
     total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    status: 'RECEIVED', createdAt: new Date().toLocaleTimeString()
+    pickupStart: slot.start, pickupEnd: slot.end,
+    status: 'RECEIVED', createdAt: new Date(now).toLocaleTimeString(), createdAtTimestamp: now
   };
   const orders = loadOrders();
   orders.unshift(newOrder);
@@ -80,6 +138,7 @@ function orderCard(order, kitchen = false) {
     <div class="order-header"><span>${escapeHTML(order.id)} (${escapeHTML(order.createdAt)})</span>
       <span class="badge ${config.className}">${config.text}</span></div>
     <div class="order-body"><span>${escapeHTML(itemSummary(order))}</span><span>$${money(order.total)}</span></div>
+    <p class="pickup-summary">Pickup: ${order.pickupStart && order.pickupEnd ? escapeHTML(formatPickup(order.pickupStart, order.pickupEnd)) : 'Not specified (older order)'}</p>
     ${kitchen && config.nextStatus ? `<button class="btn-action" data-order="${escapeHTML(order.id)}" data-restaurant="${escapeHTML(order.restaurantId)}">${config.nextText} →</button>` : ''}
   </div>`;
 }
@@ -100,6 +159,7 @@ function render() {
   el('customer-order-status').style.display = last ? 'block' : 'none';
   if (last) {
     el('cust-order-id').textContent = last.id;
+    el('cust-order-pickup').textContent = last.pickupStart && last.pickupEnd ? formatPickup(last.pickupStart, last.pickupEnd) : 'Not specified (older order)';
     el('cust-order-items').textContent = `${last.restaurantName}: ${itemSummary(last)} ($${money(last.total)})`;
     el('cust-order-badge').className = `badge ${STATUS_FLOW[last.status].className}`;
     el('cust-order-badge').textContent = STATUS_FLOW[last.status].text;
@@ -114,7 +174,7 @@ function resetAllData() {
   render();
 }
 window.addEventListener('storage', event => {
-  if ([STORAGE_KEY, LAST_ORDER_KEY, null].includes(event.key)) render();
+  if ([STORAGE_KEY, LAST_ORDER_KEY, PAUSE_KEY, null].includes(event.key)) { render(); renderAvailability(); }
 });
 window.addEventListener('DOMContentLoaded', () => {
   el('restaurant-select').innerHTML = RESTAURANTS.map(r => `<option value="${r.id}">${escapeHTML(r.name)}</option>`).join('');
@@ -130,9 +190,13 @@ window.addEventListener('DOMContentLoaded', () => {
   });
   el('customer-id').addEventListener('input', render);
   el('kitchens').addEventListener('click', event => {
+    const pauseButton = event.target.closest('[data-pause]');
+    if (pauseButton) { pauseRestaurant(pauseButton.dataset.pause); return; }
     const button = event.target.closest('[data-order]');
     if (button) advanceOrderStatus(button.dataset.order, button.dataset.restaurant);
   });
+  renderPickupOptions();
   renderMenu();
   render();
+  setInterval(() => { renderAvailability(); renderPickupOptions(); }, 250);
 });
