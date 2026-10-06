@@ -1,24 +1,31 @@
-
 ## Part G — Sprint Review and Stakeholder Feedback
 
 ### Sprint Review
 
-On October 6, 2026, all team members attended a Sprint Review through Zoom. The team conducted one combined review of the final working Increment developed across the three Sprints. Cuiyi Long simulated a customer stakeholder, and Xudong Zhang simulated a restaurant stakeholder.
+On October 6, 2026, all team members attended a Sprint Review through Zoom. The team held one combined review of the final working Increment developed across three Sprints. Cuiyi Long simulated a customer stakeholder, and Xudong Zhang simulated a restaurant stakeholder.
 
-The review focused on demonstrating working software. The team demonstrated selecting a restaurant, adding items to the cart, selecting a pickup time, and submitting an order. The restaurant workflow included accepting an order, preparing it, marking it as ready, and recording pickup. The demonstration also included customer order progress and restaurant controls for pausing new orders.
+The review demonstrated working software, including restaurant selection, cart management, pickup time selection, order submission, customer order progress, and the restaurant workflow of accepting, preparing, completing, and recording pickup of orders. The team also demonstrated restaurant controls for pausing incoming orders.
 
-### Stakeholder Feedback, Learning, and Backlog Adaptation
+### Stakeholder Feedback Decisions
 
-| Increment / Feedback | Decision | Learning | Product Backlog Adaptation and Outcome |
+| ID | Stakeholder Feedback | Decision | Rationale and Outcome |
 |---|---|---|---|
-| **Pickup time selection:** The customer requested the ability to choose a pickup time when placing an order. | **Accept** | Customers need to coordinate pickup with their own schedules, including ordering ahead for a later pickup. | Added a pickup time selection item. The feature was implemented on the review day. |
-| **Valid pickup times and restaurant capacity:** The customer requested that pickup choices exclude past times and times the restaurant cannot accommodate. | **Add/Modify Product Backlog Item** | Time validation and restaurant capacity are separate concerns. For example, an order placed at 4:00 p.m. for pickup at 7:00 p.m. does not reveal how many additional orders will arrive between those times. The current prototype lacks sufficient operational information to determine reliable capacity limits for each pickup period. | Updated the requirement to distinguish the minimum preparation time from capacity restrictions. Available pickup times start at least 15 minutes after order submission, which is implemented. Capacity limits for individual pickup periods remain unimplemented and require further clarification. |
-| **Pausing new orders:** The restaurant requested a way to pause incoming orders when it could not keep up, preferably by entering a custom pause duration. | **Clarify → Add/Modify Product Backlog Item** | Restaurants need control over incoming demand. The team identified arbitrary duration entry as too complex for the current implementation and adopted a simpler duration selection approach. | Added pause controls with preset durations. The demonstration used 15 seconds, and the merchant can select 15 minutes. Each repeated click adds another selected duration to the remaining pause time. Both customers and restaurant users can see the pause status or countdown. The feature was implemented on the review day. |
-| **Customer order progress:** The customer requested visibility into the order’s progress after submission. | **Accept** | Customers need to know whether their order has been accepted, is being prepared, or is ready for pickup. | Added or refined the customer order status requirement. Order progress visibility is implemented in the final Increment. |
-| **Pickup completion:** The restaurant requested a way to mark an order as picked up. | **Accept** | An order being ready and an order being collected are different stages. Restaurant staff need to distinguish orders awaiting pickup from completed pickups. | Added or refined the requirement for recording pickup completion. The “picked up” status is implemented in the final Increment. |
+| F1 | The customer requested the ability to select a pickup time when placing an order. | **Accept** | Customers need to arrange pickup around their schedules. Pickup time selection was implemented on October 6. |
+| F2 | The customer requested that pickup choices exclude past times and times the restaurant cannot accommodate. | **Add/Modify Product Backlog Item** | Available pickup times start at least 15 minutes after submission, which is implemented. Capacity restrictions remain unimplemented because the prototype cannot reliably determine future demand and restaurant capacity for each pickup period. |
+| F3 | The restaurant requested the ability to pause incoming orders and enter a custom pause duration. | **Clarify** | The team clarified the need to control incoming demand and simplified the implementation to preset durations. The demonstration used 15 seconds; merchants can select 15 minutes. Repeated clicks add the selected duration to the remaining pause time. Customers and restaurant users can see the pause status or countdown. |
+| F4 | The customer requested visibility into order progress after submission. | **Accept** | Customers need to know whether an order has been accepted, is being prepared, or is ready for pickup. Order progress visibility is implemented. |
+| F5 | The restaurant requested a way to mark orders as picked up. | **Accept** | Staff need to distinguish orders awaiting pickup from orders already collected. Pickup completion tracking is implemented. |
 
-### Review Outcome
+No feedback item was rejected. The team accepted feasible needs, clarified the pause interaction, and retained the unresolved capacity requirement for future refinement.
 
-The review connected the demonstrated Increment to stakeholder needs and resulting Product Backlog changes. Pickup time selection and restaurant pause controls were implemented on October 6 following feedback. Customer order progress and pickup completion were also implemented in the final Increment.
+### Increment → Feedback → Learning → Backlog Adaptation
 
-The Product Backlog was manually updated to reflect the feedback, implementation outcomes, and remaining capacity restriction requirement. The team learned that allowing customers to select a pickup time does not, by itself, establish whether a restaurant can fulfill every order scheduled for that period. This limitation remains visible in the backlog for future refinement.
+| Increment | Feedback | Learning | Backlog Adaptation |
+|---|---|---|---|
+| **Ordering workflow** | **F1:** Customers wanted to select a pickup time. | Customers may order ahead and collect their meals later, so pickup time must be part of the ordering workflow. | Added pickup time selection to the Product Backlog and implemented it on the review day. |
+| **Pickup time selection** | **F2:** Customers wanted valid and achievable pickup times. | Minimum preparation time and restaurant capacity are separate requirements. For example, an order placed at 4:00 p.m. for 7:00 p.m. pickup does not reveal how many additional orders will arrive in between. | Separated minimum preparation time validation from capacity restrictions. The 15-minute minimum is implemented; pickup-period capacity limits remain pending further clarification. |
+| **Restaurant order management** | **F3:** Restaurants needed to pause orders and control pause duration. | Restaurants need a practical way to manage incoming demand. Preset durations provide a simpler implementation than arbitrary duration entry. | Modified the pause requirement to use selectable preset durations and cumulative extensions through repeated clicks, with visible pause status or countdown. Implemented on the review day. |
+| **Customer order tracking** | **F4:** Customers wanted to see order progress. | Customers need information after checkout to understand when their meals will be ready. | Added or refined the order progress requirement. The final Increment displays customer order progress. |
+| **Restaurant completion workflow** | **F5:** Restaurants wanted to record when customers collected orders. | “Ready for pickup” and “picked up” represent different stages and should be tracked separately. | Added or refined the pickup completion requirement. The final Increment allows restaurants to mark orders as picked up. |
+
+The Product Backlog was manually updated to reflect these decisions, implemented features, and the unresolved capacity restriction requirement.
