@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Ordering & Pickup Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>QuickBite — Restaurant Pickup</h1>
+    <button class="btn-action" style="background:#ef4444;" onclick="resetAllData()">Clear All Data</button>
+  </header>
+
+  <div class="container">
+    <!-- Left Column: Customer Portal -->
+    <div class="column">
+      <div class="column-title">
+        <span>Customer Portal</span>
+      </div>
+      <label for="customer-id">Customer ID (demo user)</label>
+      <input id="customer-id" value="User 1" maxlength="60" placeholder="e.g. User 1 or User 2">
+      <label for="restaurant-select">Choose a restaurant</label>
+      <select id="restaurant-select"></select>
+      <div id="menu"></div>
+
+      <label for="pickup-time">Choose a pickup window</label>
+      <select id="pickup-time"></select>
+      <p class="restaurant-label">Windows start 15 or 45 minutes after you place your order and last 30 minutes.</p>
+      <p id="customer-pause" class="pause-status" role="status" aria-live="polite"></p>
+      <button id="btn-submit" class="btn-primary" onclick="submitOrder()">Place Order ($<span id="total-price">0</span>)</button>
+
+      <div class="order-status-card" id="customer-order-status" style="display: none;">
+        <h4 style="margin-bottom: 8px;">My Current Order</h4>
+        <p style="font-size: 0.9rem; margin-bottom: 4px;">Order ID: <strong id="cust-order-id"></strong></p>
+        <p style="font-size: 0.9rem; margin-bottom: 8px;">Items: <span id="cust-order-items"></span></p>
+        <p>Pickup: <span id="cust-order-pickup"></span></p>
+        <div>Status: <span id="cust-order-badge" class="badge"></span></div>
+      </div>
+      <h3 class="history-title">My Orders</h3>
+      <div id="customer-orders" class="orders-list"></div>
+    </div>
+
+      <!-- Restaurant queues stay independent of the customer selection. -->
+    <div class="kitchens" id="kitchens">
+      <section class="column kitchen-panel">
+        <div class="column-title"><span>Classic Burger Bar — Kitchen</span></div>
+        <button class="btn-action" data-pause="burger-bar">Pause (+15 seconds)</button>
+        <p id="pause-status-burger-bar" class="pause-status" role="status"></p>
+        <p class="restaurant-label" id="count-burger-bar"></p>
+        <div class="orders-list" id="orders-burger-bar"></div>
+      </section>
+      <section class="column kitchen-panel">
+        <div class="column-title"><span>Campus Pizza House — Kitchen</span></div>
+        <button class="btn-action" data-pause="pizza-house">Pause (+15 seconds)</button>
+        <p id="pause-status-pizza-house" class="pause-status" role="status"></p>
+        <p class="restaurant-label" id="count-pizza-house"></p>
+        <div class="orders-list" id="orders-pizza-house"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="menu.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
