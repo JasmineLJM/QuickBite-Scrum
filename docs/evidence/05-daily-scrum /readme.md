@@ -43,6 +43,32 @@ Code uploads were centralized through one member rather than performed independe
 The team used four separate branches and pull requests to integrate the implementation. Ziqing Song pulled and tested the integrated version. The team identified Part F — requirement change and adaptation — as the next step.
 
 **Changes to the team’s plan:**  
+
+
+
+### Daily Scrum 3 — October 6, 2026
+
+**Sprint:** Sprint 1 pickup-time follow-up and Sprint 3 restaurant pause controls  
+**Location:** Zoom  
+**Participants:** All four team members  
+**Duration:** 30 minutes
+
+**Sprint Goal:** Complete valid pickup-time selection for the ordering pilot and enable each restaurant to temporarily pause new orders while continuing to process existing orders.
+
+**Important progress:**  
+The team added pickup-time selection and restaurant pause controls to the pilot. Available pickup times begin at least 15 minutes after order submission. Restaurant users can select a preset pause duration, with 15 seconds used for demonstration and 15 minutes available for normal use. Repeated clicks add the selected duration to the remaining pause time. Customers and restaurant users can see the pause status or countdown. Jie Min Liang handled upload and integration, and Ziqing Song performed testing. Detailed test cases and results have not yet been documented.
+
+**Identified impediments:**  
+The pilot lacks sufficient operational information to determine reliable order limits for each pickup period. An order placed several hours before pickup does not reveal the additional demand that may arrive in between. Custom pause-duration entry was also considered too complex for the current implementation.
+
+**Decisions made:**  
+The team retained a minimum preparation time of 15 minutes for pickup choices and did not implement capacity limits for individual pickup periods. For restaurant pausing, the team adopted preset durations and cumulative extensions through repeated clicks. Jie Min Liang coordinated integration, and Ziqing Song tested the combined changes.
+
+**Changes to the team’s plan:**  
+Pickup-time selection progressed from previously unverified functionality to an implemented feature. Restaurant pause controls addressed the need to manage incoming orders without forecasting future demand. The team manually updated the Product Backlog to reflect the stakeholder feedback and resulting scope decisions. Detailed testing evidence and synchronization of older project-board records remain pending.
+
+**Time-box observation:**  
+The meeting duration was not recorded, so compliance with the 15-minute Daily Scrum time-box cannot be confirmed.
 The team progressed from GitHub familiarization to code submission and integration. The next planned activity is Part F. The Sprint Goal remains unchanged; integration alone does not confirm that every element of the goal has been completed.
 
 **Time-box observation:**  
