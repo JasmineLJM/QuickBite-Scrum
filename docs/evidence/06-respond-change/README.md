@@ -38,7 +38,7 @@ No implementation work is added to the current Sprint. Its Sprint Backlog and ex
 
 ## What should be considered for a future Sprint?
 
-Add Sprint 3 as a planned future Sprint targeting PBI-F01 only: independent restaurant pause controls, configurable duration, a customer-facing countdown, submission-time validation, automatic resumption, and integration testing. Dates, aggregate team capacity, estimates and assignees have not been provided and remain to be determined during Sprint Planning. The superseded workload-based pickup-slot restrictions are no longer planned. Late-arrival meal handling remains a restaurant operating procedure rather than a new software task. There is no Resume button.
+Add Sprint 3 as a planned future Sprint targeting PBI-F01 (Github issue#28) only: independent restaurant pause controls, configurable duration, a customer-facing countdown, submission-time validation, automatic resumption, and integration testing. Dates, aggregate team capacity, estimates and assignees have not been provided and remain to be determined during Sprint Planning. The superseded workload-based pickup-slot restrictions are no longer planned. Late-arrival meal handling remains a restaurant operating procedure rather than a new software task. There is no Resume button.
 
 ## Does the Sprint Goal remain valid?
 
