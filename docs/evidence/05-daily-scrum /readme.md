@@ -51,7 +51,7 @@ The team used four separate branches and pull requests to integrate the implemen
 **Sprint:** Sprint 1 pickup-time follow-up and Sprint 3 restaurant pause controls  
 **Location:** Zoom  
 **Participants:** All four team members  
-**Duration:** 30 minutes
+**Duration:** 12 minutes
 
 **Sprint Goal:** Complete valid pickup-time selection for the ordering pilot and enable each restaurant to temporarily pause new orders while continuing to process existing orders.
 
@@ -68,8 +68,5 @@ The team retained a minimum preparation time of 15 minutes for pickup choices an
 Pickup-time selection progressed from previously unverified functionality to an implemented feature. Restaurant pause controls addressed the need to manage incoming orders without forecasting future demand. The team manually updated the Product Backlog to reflect the stakeholder feedback and resulting scope decisions. Detailed testing evidence and synchronization of older project-board records remain pending.
 
 **Time-box observation:**  
-The meeting duration was not recorded, so compliance with the 15-minute Daily Scrum time-box cannot be confirmed.
-The team progressed from GitHub familiarization to code submission and integration. The next planned activity is Part F. The Sprint Goal remains unchanged; integration alone does not confirm that every element of the goal has been completed.
-
-**Time-box observation:**  
 The meeting lasted 12 minutes, within the 15-minute Daily Scrum time-box.
+The team progressed from GitHub familiarization to code submission and integration. The next planned activity is Part F. The Sprint Goal remains unchanged; integration alone does not confirm that every element of the goal has been completed.
