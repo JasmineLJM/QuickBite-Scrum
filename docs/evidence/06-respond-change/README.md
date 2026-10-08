@@ -11,7 +11,7 @@ Restaurant owners requested pickup choices that reflect their current workload. 
 
 ## What new or modified PBIs are needed?
 
-Add PBI-F01: Restaurant staff can temporarily pause new orders for their own restaurant. The feature provides independent pause control for each restaurant, with duration of 15 seconds.Repeat clicks extend the remaining pause time by 15 seconds. Existing orders remain processable and the other restaurant remains available. See [the backlog update](../scrum/Part-F-Backlog-Update.md) for acceptance criteria and the planned task breakdown.
+Add PBI-F01: Restaurant staff can temporarily pause new orders for their own restaurant. The feature provides independent pause control for each restaurant, with duration of 15 seconds.Repeat clicks extend the remaining pause time by 15 seconds. Existing orders remain processable and the other restaurant remains available. 
 
 Record the original workload-based pickup-slot change request as superseded by PBI-F01 with stakeholder agreement. It is not retained as a planned future feature. This replaces the new workload-based restriction request, not the basic pickup-time selection already included in the original Sprint Goal.
 
