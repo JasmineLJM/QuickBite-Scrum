@@ -63,7 +63,7 @@ function renderPickupOptions() {
 }
 function renderAvailability() {
   const remaining = pauseRemaining(selectedRestaurantId);
-  el('btn-submit').disabled = selectedItems().length === 0 || remaining > 0;
+  el('btn-submit').disabled = remaining > 0;
   el('customer-pause').textContent = remaining > 0
     ? `Ordering paused for ${Math.ceil(remaining / 1000)} seconds. You can still choose items.` : '';
   for (const r of RESTAURANTS) {
