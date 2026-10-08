@@ -11,7 +11,7 @@ Restaurant owners requested pickup choices that reflect their current workload. 
 
 ## What new or modified PBIs are needed?
 
-Add PBI-F01: Restaurant staff can temporarily pause new orders for their own restaurant. The duration is configurable, with 30 seconds as the test default. Each click restarts the full duration from the latest click. Existing orders remain processable and the other restaurant remains available. See [the backlog update](../scrum/Part-F-Backlog-Update.md) for acceptance criteria and the planned task breakdown.
+Add PBI-F01: Restaurant staff can temporarily pause new orders for their own restaurant. The feature provides independent pause control for each restaurant, with duration of 15 seconds.Repeat clicks extend the remaining pause time by 15 seconds. Existing orders remain processable and the other restaurant remains available. See [the backlog update](../scrum/Part-F-Backlog-Update.md) for acceptance criteria and the planned task breakdown.
 
 Record the original workload-based pickup-slot change request as superseded by PBI-F01 with stakeholder agreement. It is not retained as a planned future feature. This replaces the new workload-based restriction request, not the basic pickup-time selection already included in the original Sprint Goal.
 
@@ -22,10 +22,10 @@ The following questions were used to refine the change. The answers below reflec
 | Question | Agreed answer |
 | --- | --- |
 | Can manual pausing replace workload-based pickup-slot restrictions? | Yes. Use manual pause controls instead of implementing the requested workload-based restrictions. |
-| What pause duration is needed in normal operation? | Each restaurant will communicate its required duration, which will then be configured. Thirty seconds is for testing only. |
+| What pause duration is needed in normal operation? | Each restaurant will communicate its required duration, which will then be configured. Thirty seconds is for testing only (2 x 15 seconds). |
 | Is an early Resume button required? | No. Ordering resumes automatically when the timer expires. |
 | Can customers select food while the restaurant is paused? | Yes. Browsing and cart changes remain available; submission is blocked. |
-| What happens when Pause is clicked again? | Restart the full configured duration from the latest click. |
+| What happens when Pause is clicked again? | Extend the pause duration by another 15 seconds. |
 | How should late arrivals be handled? | Staff set the meal aside and hand it to the customer when they arrive. No additional software handling is included. |
 
 The actual operating duration remains to be supplied by each restaurant. Staff access and the supported demonstration environment should be specified during Sprint 3 planning; they are not assumed to be agreed technical details.
