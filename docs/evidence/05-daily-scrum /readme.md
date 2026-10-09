@@ -43,7 +43,7 @@ Code uploads were centralized through one member rather than performed independe
 The team used four separate branches and pull requests to integrate the implementation. Ziqing Song pulled and tested the integrated version. The team identified Part F — requirement change and adaptation — as the next step.
 
 **Changes to the team’s plan:**  
-
+No major changes were made to the Sprint Goal. The team continued integrating the submitted code and focused on verifying the remaining functionality.
 
 
 ### Daily Scrum 3 — October 6, 2026
