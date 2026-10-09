@@ -1,6 +1,6 @@
 ## Planning Approach
 
-The four team members jointly established the goals, selected Product Backlog Items (PBIs), estimates, and work assignments for Sprint 1 and Sprint 2 early in the project. Sprint 3 was subsequently planned in response to changing stakeholder requirements.
+The four team members jointly established the goals, selected Product Backlog Items (PBIs), estimates, and work assignments for Sprint 1 and Sprint 2 early in the project. 
 
 The team used [GitHub Projects](https://github.com/users/JasmineLJM/projects/1) to organize the Product Backlog and [Sprint Backlog](https://github.com/users/JasmineLJM/projects/1/views/2). Selected PBIs have Sprint assignments, story point estimates, assignees, and linked engineering plans.
 
